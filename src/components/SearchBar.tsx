@@ -77,7 +77,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="w-[300px]">
+    <div className="relative w-[300px]">
       <div className="relative w-full flex items-center">
         <Input
           className="bg-black/40 border-none placeholder:text-foreground"
@@ -96,6 +96,7 @@ export default function SearchBar() {
       </div>
       <div
         className={cn(
+          "absolute",
           "bg-background rounded-md my-1 rounded-scrollbar",
           "max-h-[500px] overflow-y-auto opacity-0 transition-opacity delay-150 duration-350",
           movies?.length && "opacity-100 p-2 border"
