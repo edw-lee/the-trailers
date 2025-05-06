@@ -2,19 +2,24 @@ import { GenreDto } from "@/dtos/movieDetails/GenreDto";
 import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
 import { SearchMovieDto } from "@/dtos/trailers/SearchMovieDto";
 import { createTMDBImageUrl } from "@/utils/urlUtils";
+import { FetchClient } from "@/lib/fetchClient";
+
+const fetchInstance = new FetchClient({
+  baseURL: process.env.TMDB_BASE_URL,
+  defaultInit: {
+    headers: {
+      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+    },
+  },
+});
 
 export async function getGenres(
   convertToMap: boolean = false
 ): Promise<GenreDto[] | Record<string, string>> {
   try {
-    const { genres } = await fetch(
-      `${process.env.TMDB_BASE_URL}/genre/movie/list`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-        },
-      }
-    ).then((res) => res.json());
+    const { genres } = await fetchInstance
+      .fetch("/genre/movie/list")
+      .then((res) => res.json());
 
     if (!convertToMap) {
       return genres;
@@ -34,32 +39,17 @@ export async function getGenres(
 
 export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
   try {
-    const fetchMovieDetails = fetch(
-      `${process.env.TMDB_BASE_URL}/movie/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-        },
-      }
-    ).then((res) => res.json());
+    const fetchMovieDetails = fetchInstance
+      .fetch(`/movie/${id}`)
+      .then((res) => res.json());
 
-    const fetchCasts = fetch(
-      `${process.env.TMDB_BASE_URL}/movie/${id}/credits`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-        },
-      }
-    ).then((res) => res.json());
+    const fetchCasts = fetchInstance
+      .fetch(`/movie/${id}/credits`)
+      .then((res) => res.json());
 
-    const fetchVideos = fetch(
-      `${process.env.TMDB_BASE_URL}/movie/${id}/videos`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-        },
-      }
-    ).then((res) => res.json());
+    const fetchVideos = fetchInstance
+      .fetch(`/movie/${id}/videos`)
+      .then((res) => res.json());
 
     const [tmdbMovieResults, tmdbCastsResults, tmdbVideosResults] =
       await Promise.all([fetchMovieDetails, fetchCasts, fetchVideos]);
@@ -117,14 +107,9 @@ export async function searchMovies(query: string): Promise<SearchMovieDto[]> {
       query,
     });
 
-    const { results: tmdbMovieResults } = await fetch(
-      `${process.env.TMDB_BASE_URL}/search/movie?${searchParams.toString()}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-        },
-      }
-    ).then((res) => res.json());
+    const { results: tmdbMovieResults } = await fetchInstance
+      .fetch(`/search/movie?${searchParams.toString()}`)
+      .then((res) => res.json());
 
     const results: SearchMovieDto[] = (
       tmdbMovieResults as Array<any>

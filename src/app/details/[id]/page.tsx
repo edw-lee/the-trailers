@@ -8,7 +8,7 @@ import TrailersListSection from "@/components/TrailersListSection";
 import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
 import Rating from "@/components/Rating";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   let movieDetails: MovieDetailsDto;
 

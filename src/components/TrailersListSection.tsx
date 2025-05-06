@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
   Carousel,
@@ -7,16 +6,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import dayjs from "dayjs";
-import { fjalla } from "@/lib/fonts";
-import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
-import { getSectionTrailers } from "@/services/server/trailersService";
-import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
 import { Skeleton } from "@/components/ui/skeleton";
-import { interpolateColor, stringToColour } from "@/utils/colorUtil";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
-import { CircularProgress } from "@/components/ui/circular-progress";
+import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
+import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
+import { fjalla } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import { getSectionTrailers } from "@/services/server/trailersService";
+import { stringToColour } from "@/utils/colorUtil";
+import dayjs from "dayjs";
 import Rating from "./Rating";
 
 const sectionHeaderMapping = {

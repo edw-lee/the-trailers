@@ -4,6 +4,16 @@ import { createTMDBImageUrl } from "@/utils/urlUtils";
 import { getGenres } from "./moviesService";
 import { createServerClient } from "@/utils/supabase/server";
 import { GetFeaturedTrailersResponseDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
+import { FetchClient } from "@/lib/fetchClient";
+
+const fetchInstance = new FetchClient({
+  baseURL: process.env.TMDB_BASE_URL,
+  defaultInit: {
+    headers: {
+      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+    },
+  },
+});
 
 export async function getFeaturedTrailers(): Promise<GetFeaturedTrailersResponseDto> {
   const supabase = await createServerClient();
@@ -35,14 +45,9 @@ export async function getSectionTrailers(
   try {
     const genres = (await getGenres(true)) as Record<string, string>;
 
-    const { results: tmdbMovieResults } = await fetch(
-      `${process.env.TMDB_BASE_URL}/movie/${sectionType}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-        },
-      }
-    ).then((res) => res.json());
+    const { results: tmdbMovieResults } = await fetchInstance
+      .fetch(`/movie/${sectionType}`)
+      .then((res) => res.json());
 
     const results: SectionTrailerDto[] = (
       tmdbMovieResults as Array<any>

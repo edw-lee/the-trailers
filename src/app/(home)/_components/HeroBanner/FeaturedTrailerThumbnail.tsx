@@ -1,17 +1,16 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { CircleAlert, Pause, Play } from "lucide-react";
-import { Progress } from "../../../../components/ui/progress";
-import { useAppSelector } from "@/store/hooks";
-import { useGetFeaturedTrailers } from "@/hooks/data/trailers/useGetFeaturedTrailers";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SearchMoviesResponseDto } from "@/dtos/trailers/SearchMovieDto";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { cn } from "@/lib/utils";
+import { useAppSelector } from "@/store/hooks";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CircleAlert } from "lucide-react";
+import { Progress } from "../../../../components/ui/progress";
+import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
 
 type FeaturedTrailerThumbnailProps = {
-  trailer?: SearchMoviesResponseDto;
+  trailer?: FeaturedTrailerDto;
   isLoading?: boolean;
   hasError?: boolean;
   isSelected?: boolean;

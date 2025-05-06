@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export default function useIsTabActive() {
   const [isActive, setIsActive] = useState(true);
 
-  const visibilityChangeHandler = (e: Event) => {
+  const visibilityChangeHandler = () => {
     if (document.visibilityState == "visible") {
       setIsActive(true);
     } else {

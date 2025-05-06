@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export default function useIsTabInteracted() {
   const [userInteracted, setUserInteracted] = useState(false);
 
-  const interactionHandler = (e: Event) => {
+  const interactionHandler = () => {
     setUserInteracted(true);    
   };
 
