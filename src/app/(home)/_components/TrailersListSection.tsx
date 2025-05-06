@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Badge } from "./ui/badge";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+import { Badge } from "@/components/ui/badge";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import dayjs from "dayjs";
 import { fjalla } from "@/lib/fonts";
-
-type SectionProps = {};
 
 function SectionThumbnail() {
   return (
@@ -24,7 +26,7 @@ function SectionThumbnail() {
   );
 }
 
-export default function Section() {
+export default function TrailersListSection() {
   return (
     <div className={cn("w-full max-w-screen flex justify-center", "my-20")}>
       <div className="container">

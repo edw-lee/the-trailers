@@ -1,15 +1,15 @@
-import HeroBanner from "@/components/HeroBanner";
-import Section from "@/components/Section";
+import HeroBanner from "./_components/HeroBanner";
+import TrailersListSection from "./_components/TrailersListSection";
 
 export default function Home() {
   return (
     <div>
       <HeroBanner />
-      <Section />
-      <Section />
-      <Section />
-      <Section />
-      <Section />
+      <TrailersListSection />
+      <TrailersListSection />
+      <TrailersListSection />
+      <TrailersListSection />
+      <TrailersListSection />
     </div>
   );
 }
