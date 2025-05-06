@@ -7,6 +7,16 @@ import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import PlayButton from "./PlayButton";
+import { createBunnyVideoUrl } from "@/utils/urlUtils";
 
 export type BannerMovieInfo = {
   label: string;
@@ -21,24 +31,6 @@ export type BannerMovieInfoSectionProps = {
 export type BannerProps = {
   movieDetails: MovieDetailsDto;
 };
-
-function PlayButton() {
-  return (
-    <button
-      className={cn(
-        "relative flex justify-center items-center",
-        "grow min-w-[150px] h-full aspect-[3/2] p-2",
-        "bg-lime-500 hover:bg-lime-600 rounded-2xl cursor-pointer"
-      )}
-    >
-      <FontAwesomeIcon
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        icon={faPlay}
-        size="4x"
-      />
-    </button>
-  );
-}
 
 function BannerMovieInfo({ label, value, className }: BannerMovieInfo) {
   return (
@@ -63,7 +55,7 @@ function BannerMovieInfo({ label, value, className }: BannerMovieInfo) {
         className={cn(
           fjalla.className,
           "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-          "text-md md:text-lg lg:text-xl xl:text-4xl"
+          "text-md md:text-lg lg:text-xl xl:text-4xl whitespace-nowrap"
         )}
       >
         {value}
@@ -95,7 +87,9 @@ function BannerMovieInfoSection({ movieDetails }: BannerMovieInfoSectionProps) {
         ))}
       </div>
       <div className="flex gap-2 md:gap-3 lg:gap-5">
-        <PlayButton />
+        <PlayButton
+          movieDetails={movieDetails}
+        />
         <BannerMovieInfo
           className="hidden md:flex"
           label="PG Rating"

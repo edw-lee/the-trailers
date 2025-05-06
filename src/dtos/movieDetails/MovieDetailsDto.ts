@@ -18,4 +18,5 @@ export interface MovieDetailsDto {
   genres: string[];
   rating: number;
   casts: CastDto[];
+  youtubeId?: string;
 }

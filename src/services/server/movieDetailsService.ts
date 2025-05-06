@@ -52,10 +52,17 @@ export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
       }
     ).then((res) => res.json());
 
-    const [tmdbMovieResults, tmdbCastsResults] = await Promise.all([
-      fetchMovieDetails,
-      fetchCasts,
-    ]);
+    const fetchVideos = fetch(
+      `${process.env.TMDB_BASE_URL}/movie/${id}/videos`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+        },
+      }
+    ).then((res) => res.json());
+
+    const [tmdbMovieResults, tmdbCastsResults, tmdbVideosResults] =
+      await Promise.all([fetchMovieDetails, fetchCasts, fetchVideos]);
 
     const casts = tmdbCastsResults.cast
       .sort((a: any, b: any) => a.order - b.order)
@@ -65,6 +72,10 @@ export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
         name: cast.name,
         imageUrl: createTMDBImageUrl(cast.profile_path, "w200"),
       }));
+
+    const youtubeVideo = tmdbVideosResults.results.find(
+      (video: any) => video.site.toLowerCase() == "youtube" && video.type.toLowerCase() == "trailer"
+    );
 
     const result: MovieDetailsDto = {
       id: tmdbMovieResults.id,
@@ -89,6 +100,7 @@ export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
       genres: tmdbMovieResults.genres.map((genre: any) => genre.name),
       rating: tmdbMovieResults.vote_average,
       casts,
+      youtubeId: youtubeVideo?.key,
     };
 
     return result;
