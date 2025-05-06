@@ -1,7 +1,6 @@
 "use client";
 
-import { SearchMoviesResponseDto } from "@/dtos/trailers/SearchMovieDto";
-import { useGetFeaturedTrailers } from "@/hooks/data/trailers/useGetFeaturedTrailers";
+import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
 import { fjalla } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -9,6 +8,7 @@ import {
   setSelectedTrailerIndex,
   setShouldPlayVideo,
 } from "@/store/slices/homeSlice";
+import { SquareArrowOutUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Carousel,
@@ -23,7 +23,7 @@ import MuteButton from "./MuteButton";
 
 type FeaturedTrailerSelectorProps = {
   classNames?: string;
-  featuredTrailers: SearchMoviesResponseDto[];
+  featuredTrailers: FeaturedTrailerDto[];
 };
 
 export default function FeaturedTrailerSelector({
@@ -74,7 +74,13 @@ export default function FeaturedTrailerSelector({
           {selectedTrailer?.title}
         </p>
 
-        <MuteButton />
+        <div className="flex gap-3 items-center">
+          <a href={`/details/${selectedTrailer?.tmdbId}`}>
+            <SquareArrowOutUpRight size={30}/>
+          </a>
+
+          <MuteButton />
+        </div>
       </div>
       <div className="flex flex-row items-center gap-5">
         <Carousel
@@ -94,7 +100,7 @@ export default function FeaturedTrailerSelector({
               return (
                 <CarouselItem key={index} className="basis-1/3 xl:basis-1/4">
                   <FeaturedTrailerThumbnail
-                    trailer={trailer as SearchMoviesResponseDto}
+                    trailer={trailer}
                     isSelected={isSelected}
                     onClick={() => onThumbnailClick(index)}
                   />
