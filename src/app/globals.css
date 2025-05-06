@@ -75,7 +75,24 @@
   --sidebar-accent: oklch(0.967 0.003 264.542);
   --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
   --sidebar-border: oklch(0.928 0.006 264.531);
-  --sidebar-ring: oklch(0.707 0.022 261.325);
+  --sidebar-ring: oklch(0.707 0.022 261.325);  
+}
+
+.rounded-scrollbar::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.rounded-scrollbar::-webkit-scrollbar-track {
+  border-radius: 9999px;
+  background-color: transparent;
+}
+
+.rounded-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+}
+
+.rounded-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .dark {

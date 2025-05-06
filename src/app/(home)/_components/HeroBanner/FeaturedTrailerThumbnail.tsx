@@ -6,12 +6,12 @@ import { Progress } from "../../../../components/ui/progress";
 import { useAppSelector } from "@/store/hooks";
 import { useGetFeaturedTrailers } from "@/hooks/data/trailers/useGetFeaturedTrailers";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
+import { SearchMoviesResponseDto } from "@/dtos/trailers/SearchMovieDto";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 
 type FeaturedTrailerThumbnailProps = {
-  trailer?: FeaturedTrailerDto;
+  trailer?: SearchMoviesResponseDto;
   isLoading?: boolean;
   hasError?: boolean;
   isSelected?: boolean;

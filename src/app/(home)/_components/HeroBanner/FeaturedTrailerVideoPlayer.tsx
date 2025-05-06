@@ -2,7 +2,6 @@
 
 import { Spinner } from "@/components/ui/spinner";
 import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
-import { useGetFeaturedTrailers } from "@/hooks/data/trailers/useGetFeaturedTrailers";
 import useIsTabActive from "@/hooks/useIsTabActive";
 import useIsTabInteracted from "@/hooks/useIsTabInteracted";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";

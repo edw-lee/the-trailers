@@ -1,4 +1,4 @@
-import { getMovieDetails } from "@/services/server/movieDetailsService";
+import { getMovieDetails } from "@/services/server/moviesService";
 import Banner from "./_components/Banner";
 import MovieDetailsSection from "./_components/MovieDetailsSection";
 import { notFound } from "next/navigation";

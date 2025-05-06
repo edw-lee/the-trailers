@@ -1,6 +1,6 @@
 import { GenreDto } from "@/dtos/movieDetails/GenreDto";
 import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
-import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
+import { SearchMovieDto } from "@/dtos/trailers/SearchMovieDto";
 import { createTMDBImageUrl } from "@/utils/urlUtils";
 
 export async function getGenres(
@@ -74,7 +74,9 @@ export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
       }));
 
     const youtubeVideo = tmdbVideosResults.results.find(
-      (video: any) => video.site.toLowerCase() == "youtube" && video.type.toLowerCase() == "trailer"
+      (video: any) =>
+        video.site.toLowerCase() == "youtube" &&
+        video.type.toLowerCase() == "trailer"
     );
 
     const result: MovieDetailsDto = {
@@ -104,6 +106,35 @@ export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
     };
 
     return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function searchMovies(query: string): Promise<SearchMovieDto[]> {
+  try {
+    const searchParams = new URLSearchParams({
+      query,
+    });
+
+    const { results: tmdbMovieResults } = await fetch(
+      `${process.env.TMDB_BASE_URL}/search/movie?${searchParams.toString()}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+        },
+      }
+    ).then((res) => res.json());
+
+    const results: SearchMovieDto[] = (
+      tmdbMovieResults as Array<any>
+    ).map<SearchMovieDto>((movieData: any) => ({
+      id: movieData.id,
+      title: movieData.title,
+      thumbnailUrl: createTMDBImageUrl(movieData.poster_path, "w200"),
+    }));
+
+    return results;
   } catch (error) {
     throw error;
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
+import { SearchMoviesResponseDto } from "@/dtos/trailers/SearchMovieDto";
 import { useGetFeaturedTrailers } from "@/hooks/data/trailers/useGetFeaturedTrailers";
 import { fjalla } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -23,7 +23,7 @@ import MuteButton from "./MuteButton";
 
 type FeaturedTrailerSelectorProps = {
   classNames?: string;
-  featuredTrailers: FeaturedTrailerDto[];
+  featuredTrailers: SearchMoviesResponseDto[];
 };
 
 export default function FeaturedTrailerSelector({
@@ -94,7 +94,7 @@ export default function FeaturedTrailerSelector({
               return (
                 <CarouselItem key={index} className="basis-1/3 xl:basis-1/4">
                   <FeaturedTrailerThumbnail
-                    trailer={trailer as FeaturedTrailerDto}
+                    trailer={trailer as SearchMoviesResponseDto}
                     isSelected={isSelected}
                     onClick={() => onThumbnailClick(index)}
                   />

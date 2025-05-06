@@ -1,7 +1,7 @@
 import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
 import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
 import { createTMDBImageUrl } from "@/utils/urlUtils";
-import { getGenres } from "./movieDetailsService";
+import { getGenres } from "./moviesService";
 import { createServerClient } from "@/utils/supabase/server";
 import { GetFeaturedTrailersResponseDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
 
