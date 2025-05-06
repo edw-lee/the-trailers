@@ -4,45 +4,141 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import dayjs from "dayjs";
 import { fjalla } from "@/lib/fonts";
+import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
+import { getSectionTrailers } from "@/services/server/trailersService";
+import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
+import { Skeleton } from "@/components/ui/skeleton";
+import { interpolateColor, stringToColour } from "@/utils/colorUtil";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft } from "lucide-react";
+import { CircularProgress } from "@/components/ui/circular-progress";
 
-function SectionThumbnail() {
+const sectionHeaderMapping = {
+  [SectionTypeEnums.NOW_PLAYING]: "Now Playing",
+  [SectionTypeEnums.POPULAR]: "Popular",
+  [SectionTypeEnums.TOP_RATED]: "Top Rated",
+  [SectionTypeEnums.UPCOMING]: "Upcoming",
+};
+
+const sectionHeaderIconMapping = {
+  [SectionTypeEnums.NOW_PLAYING]: "./icons/clapperboard.png",
+  [SectionTypeEnums.POPULAR]: "./icons/flame.png",
+  [SectionTypeEnums.TOP_RATED]: "./icons/star.png",
+  [SectionTypeEnums.UPCOMING]: "./icons/megaphone.png",
+};
+
+type TrailersListSectionProps = {
+  sectionType: SectionTypeEnums;
+};
+
+type TrailerSectionThumbnailProps = {
+  trailer: SectionTrailerDto;
+  hasError?: boolean;
+};
+
+function TrailerSectionThumbnail({
+  trailer,
+  hasError,
+}: TrailerSectionThumbnailProps) {
+  if (hasError) {
+    return (
+      <div>
+        <Skeleton className="rounded-xl mb-5 aspect-2/3" />
+        <Skeleton className="h-[15px] mb-2" />
+        <div className="flex gap-3">
+          <Skeleton className="h-[15px] w-[150px]" />
+          <Skeleton className="h-[30px] w-[100px]" />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div className="cursor-pointer">
       <img
-        className="rounded-xl mb-5"
-        src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTOWuk9UDhkMIZx7tu5SAm1anzf8L5R0SX0SnNKCvmx6eZZDww1"
+        className="rounded-xl mb-5 transition-transform hover:scale-105 hover:drop-shadow-lg"
+        src={trailer.posterUrl}
       />
-      <p className={cn(fjalla.className)}>Title</p>
-      <div className="flex gap-3">
-        <p>{dayjs(new Date()).format("MMM DD")}</p>
-        <Badge variant={"outline"} className="border-yellow-200">
-          Platform
-        </Badge>
+      <p className={cn(fjalla.className, "mb-2")}>{trailer.title}</p>
+      <div className="flex gap-3 items-center">
+        <p>{dayjs(new Date(trailer.releaseDate)).format("MMM DD")}</p>
+        {trailer.genre && (
+          <Badge className="hidden lg:inline"
+            variant={"outline"}
+            style={{ borderColor: stringToColour(trailer.genre) }}
+          >
+            {trailer.genre}
+          </Badge>
+        )}
+        <CircularProgress
+          className="w-[40px]"
+          value={trailer.rating / 10}
+          fill={interpolateColor(trailer.rating, 0, 10, "#ded81f", "#6fed2b")}
+        >
+          <p
+            className={cn(
+              "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2",
+              "font-bold text-[10px]"
+            )}
+          >
+            {Math.round(trailer.rating * 10)}
+            <span className="text-[8px]">%</span>
+          </p>
+        </CircularProgress>
       </div>
     </div>
   );
 }
 
-export default function TrailersListSection() {
+export default async function TrailersListSection({
+  sectionType,
+}: TrailersListSectionProps) {
+  let hasError = false;
+  let trailers: SectionTrailerDto[] = Array.from({ length: 5 });
+
+  try {
+    const results = await getSectionTrailers(sectionType);
+    trailers = results;
+  } catch (error) {
+    hasError = true;
+    console.log(error);
+  }
+
   return (
     <div className={cn("w-full max-w-screen flex justify-center", "my-20")}>
       <div className="container">
-        <p className="text-lg font-bold mb-5">Header</p>
+        <span className="flex flex-row gap-3 items-center mb-5">
+          <img
+            src={sectionHeaderIconMapping[sectionType]}
+            className="aspect-square object-contain"
+            width={20}
+          />
+          <p className="text-lg font-bold">
+            {sectionHeaderMapping[sectionType]}
+          </p>
+        </span>
         <Carousel
           opts={{
             align: "start",
           }}
         >
+          <CarouselPrevious />
           <CarouselContent>
-            {Array.from({ length: 10 }).map((_, index) => (
-              <CarouselItem key={index} className="basis-1/5">
-                <SectionThumbnail />
+            {trailers.map((trailer, index) => (
+              <CarouselItem key={index} className="basis-1/5 py-3">
+                <TrailerSectionThumbnail
+                  trailer={trailer}
+                  hasError={hasError}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
+          <CarouselNext />
         </Carousel>
       </div>
     </div>
