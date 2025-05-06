@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   setIsPlaying,
   setPlayProgress,
+  setSelectedTrailerIndex,
   setShouldPlayVideo,
 } from "@/store/slices/homeSlice";
 import { createBunnyVideoUrl } from "@/utils/urlUtils";
@@ -15,18 +16,15 @@ import { AlertCircle } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 export default function FeaturedTrailerVideoPlayer() {
-  const { data, isLoading, error } = useGetFeaturedTrailers();
-  const { selectedTrailerIndex, isPlaying, shouldPlayVideo, isMuted } =
-    useAppSelector(({ home }) => home);
+  const { data: featuredTrailers, isLoading, error } = useGetFeaturedTrailers();
+  const { selectedTrailerIndex, shouldPlayVideo, isMuted } = useAppSelector(
+    ({ home }) => home
+  );
   const isInteracted = useIsTabInteracted();
   const isTabActive = useIsTabActive();
   const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const selectedTrailer = data?.at(selectedTrailerIndex);
-
-  const onVideoClick = () => {
-    dispatch(setShouldPlayVideo(!isPlaying));
-  };
+  const selectedTrailer = featuredTrailers?.at(selectedTrailerIndex);
 
   const onVideoPlay = () => {
     dispatch(setIsPlaying(true));
@@ -36,10 +34,22 @@ export default function FeaturedTrailerVideoPlayer() {
     dispatch(setIsPlaying(false));
   };
 
+  const onVideoEnd = () => {
+    dispatch(setIsPlaying(false));
+    dispatch(setShouldPlayVideo(false));
+    dispatch(
+      setSelectedTrailerIndex(
+        selectedTrailerIndex < featuredTrailers!.length - 1
+          ? selectedTrailerIndex + 1
+          : 0
+      )
+    );
+  };
+
   const onVideoProgress = () => {
     const currentTime = videoRef.current?.currentTime ?? 0;
     const duration = videoRef.current?.duration ?? 0;
-    const progress = currentTime / duration;    
+    const progress = currentTime / duration;
     dispatch(setPlayProgress(progress));
   };
 
@@ -66,7 +76,7 @@ export default function FeaturedTrailerVideoPlayer() {
   if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <Spinner fill="oklch(76.8% 0.233 130.85)"/>
+        <Spinner fill="oklch(76.8% 0.233 130.85)" />
       </div>
     );
   }
@@ -88,8 +98,8 @@ export default function FeaturedTrailerVideoPlayer() {
       muted={!isInteracted || isMuted}
       onPlay={onVideoPlay}
       onPause={onVideoPause}
+      onEnded={onVideoEnd}
       onTimeUpdate={onVideoProgress}
-      onClick={onVideoClick}
     />
   );
 }

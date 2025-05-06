@@ -6,12 +6,13 @@ export async function GET(request: Request) {
   const supabase = await createServerClient();
 
   try {
-    const { data, error } = await supabase      
-      .from("random_featured_trailers")
+    const { data, error } = await supabase
+      .from("featured_trailers")
       .select()
-      .limit(10);
+      .order("id", { ascending: true });
+    //.limit(10);
 
-      if (error) {
+    if (error) {
       throw error;
     }
 

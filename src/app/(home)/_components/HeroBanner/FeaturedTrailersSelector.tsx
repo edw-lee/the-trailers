@@ -9,7 +9,7 @@ import {
   setSelectedTrailerIndex,
   setShouldPlayVideo,
 } from "@/store/slices/homeSlice";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselApi,
@@ -20,9 +20,6 @@ import {
 } from "../../../../components/ui/carousel";
 import FeaturedTrailerThumbnail from "./FeaturedTrailerThumbnail";
 import MuteButton from "./MuteButton";
-import { useDebouncer } from "@/hooks/useDebouncer";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 type FeaturedTrailerSelectorProps = {
   classNames?: string;
@@ -89,7 +86,10 @@ export default function FeaturedTrailerSelector({
           }}
           setApi={setCarouselApi}
         >
-          <CarouselPrevious onClick={() => onPrevClick()} />
+          <CarouselPrevious
+            disabled={selectedTrailerIndex == 0}
+            onClick={() => onPrevClick()}
+          />
           <CarouselContent>
             {featuredTrailers?.map((trailer, index) => {
               const isSelected = index == selectedTrailerIndex;
@@ -106,7 +106,10 @@ export default function FeaturedTrailerSelector({
               );
             })}
           </CarouselContent>
-          <CarouselNext onClick={() => onNextClick()} />
+          <CarouselNext
+            disabled={selectedTrailerIndex == featuredTrailers.length - 1}
+            onClick={() => onNextClick()}
+          />
         </Carousel>
       </div>
     </div>

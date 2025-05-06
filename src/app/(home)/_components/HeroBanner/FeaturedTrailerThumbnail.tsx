@@ -59,9 +59,9 @@ export default function FeaturedTrailerThumbnail({
       <img className="object-cover" src={trailer.thumbnailUrl} />
       <span
         className={cn(
-          "absolute bg-lime-500 px-7 py-3 rounded-lg",
+          "absolute w-[70px] aspect-3/2 flex justify-center items-center",
           "top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 transition-opacity",
-          "group-hover:opacity-100",
+          "group-hover:opacity-100 bg-lime-500 rounded-lg",
           !isSelected ? "opacity-0" : "opacity-100"
         )}
       >

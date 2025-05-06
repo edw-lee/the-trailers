@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setIsMuted } from "@/store/slices/homeSlice";
-import { Volume, VolumeOff } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 
 export default function MuteButton() {
   const { isMuted } = useAppSelector(({ home }) => home);
@@ -15,9 +15,9 @@ export default function MuteButton() {
   return (
     <button onClick={onClick} className="drop-shadow cursor-pointer">
       {isMuted ? (
-        <VolumeOff fill="white" size={30} />
+        <VolumeX fill="white" size={30} />
       ) : (
-        <Volume fill="white" size={30} />
+        <Volume2 fill="white" size={30} />
       )}
     </button>
   );
