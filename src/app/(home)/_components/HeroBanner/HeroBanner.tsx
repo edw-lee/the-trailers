@@ -1,10 +1,11 @@
-import { fjalla } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import FeaturedTrailerSelector from "./FeaturedTrailersSelector";
 import FeaturedTrailerVideoPlayer from "./FeaturedTrailerVideoPlayer";
-import MuteButton from "./MuteButton";
+import { getFeaturedTrailers } from "@/services/server/trailersService";
 
-export default function HeroBanner() {
+export default async function HeroBanner() {
+  const featuredTrailers = await getFeaturedTrailers();
+
   return (
     <div
       className={cn(
@@ -13,7 +14,7 @@ export default function HeroBanner() {
         "relative"
       )}
     >
-      <FeaturedTrailerVideoPlayer />
+      <FeaturedTrailerVideoPlayer featuredTrailers={featuredTrailers.results} />
       <div
         className={cn(
           "w-full",
@@ -21,7 +22,7 @@ export default function HeroBanner() {
           "bg-linear-to-t from-background from-10% to-background/0 to-60%"
         )}
       >
-        <FeaturedTrailerSelector />
+        <FeaturedTrailerSelector featuredTrailers={featuredTrailers.results} />
       </div>
     </div>
   );

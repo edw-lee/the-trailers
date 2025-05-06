@@ -7,10 +7,9 @@ export async function GET(request: Request) {
 
   try {
     const { data, error } = await supabase
-      .from("featured_trailers")
+      .from("random_featured_trailers")
       .select()
-      .order("id", { ascending: true });
-    //.limit(10);
+      .limit(10);
 
     if (error) {
       throw error;

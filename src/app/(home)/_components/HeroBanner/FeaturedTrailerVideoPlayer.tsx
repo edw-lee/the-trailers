@@ -1,6 +1,7 @@
 "use client";
 
 import { Spinner } from "@/components/ui/spinner";
+import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
 import { useGetFeaturedTrailers } from "@/hooks/data/trailers/useGetFeaturedTrailers";
 import useIsTabActive from "@/hooks/useIsTabActive";
 import useIsTabInteracted from "@/hooks/useIsTabInteracted";
@@ -15,8 +16,13 @@ import { createBunnyVideoUrl } from "@/utils/urlUtils";
 import { AlertCircle } from "lucide-react";
 import { useEffect, useRef } from "react";
 
-export default function FeaturedTrailerVideoPlayer() {
-  const { data: featuredTrailers, isLoading, error } = useGetFeaturedTrailers();
+type FeaturedTrailerVideoPlayerProps = {
+  featuredTrailers: FeaturedTrailerDto[];
+};
+
+export default function FeaturedTrailerVideoPlayer({
+  featuredTrailers,
+}: FeaturedTrailerVideoPlayerProps) {
   const { selectedTrailerIndex, shouldPlayVideo, isMuted } = useAppSelector(
     ({ home }) => home
   );
@@ -73,7 +79,7 @@ export default function FeaturedTrailerVideoPlayer() {
     }
   }, [shouldPlayVideo]);
 
-  if (isLoading) {
+  if (!featuredTrailers) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <Spinner fill="oklch(76.8% 0.233 130.85)" />
@@ -81,7 +87,7 @@ export default function FeaturedTrailerVideoPlayer() {
     );
   }
 
-  if (error || !selectedTrailer) {
+  if (!selectedTrailer) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <AlertCircle color="red" />

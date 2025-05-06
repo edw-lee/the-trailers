@@ -23,20 +23,18 @@ import MuteButton from "./MuteButton";
 
 type FeaturedTrailerSelectorProps = {
   classNames?: string;
+  featuredTrailers: FeaturedTrailerDto[];
 };
 
 export default function FeaturedTrailerSelector({
   classNames,
+  featuredTrailers,
 }: FeaturedTrailerSelectorProps) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-  const { data, isLoading, error } = useGetFeaturedTrailers();
   const { selectedTrailerIndex, isPlaying } = useAppSelector(
     ({ home }) => home
   );
   const dispatch = useAppDispatch();
-  const featuredTrailers: FeaturedTrailerDto[] = data?.length
-    ? data
-    : Array.from({ length: 4 });
   const selectedTrailer = featuredTrailers?.at(selectedTrailerIndex);
 
   const onThumbnailClick = (index: number) => {
@@ -65,7 +63,7 @@ export default function FeaturedTrailerSelector({
   }, [selectedTrailerIndex]);
 
   return (
-    <div className="w-full container">
+    <div className={cn("w-full container", classNames)}>
       <div className="flex gap-2 mb-2 drop-shadow">
         {selectedTrailer?.casts.slice(0, 3)?.map((cast, index) => (
           <p key={index}>{cast}</p>
@@ -97,8 +95,6 @@ export default function FeaturedTrailerSelector({
                 <CarouselItem key={index} className="basis-1/3 xl:basis-1/4">
                   <FeaturedTrailerThumbnail
                     trailer={trailer as FeaturedTrailerDto}
-                    isLoading={isLoading}
-                    hasError={Boolean(error)}
                     isSelected={isSelected}
                     onClick={() => onThumbnailClick(index)}
                   />
