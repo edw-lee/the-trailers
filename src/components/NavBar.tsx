@@ -21,7 +21,9 @@ export default function NavBar() {
   return (
     <nav className="flex justify-center fixed w-screen z-10">
       <div className={"container flex flex-row justify-between py-5"}>
-        <Logo />
+        <a href="/">
+          <Logo />
+        </a>
         <Searchbar />
       </div>
     </nav>

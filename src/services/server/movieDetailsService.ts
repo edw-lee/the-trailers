@@ -1,0 +1,98 @@
+import { GenreDto } from "@/dtos/movieDetails/GenreDto";
+import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
+import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
+import { createTMDBImageUrl } from "@/utils/urlUtils";
+
+export async function getGenres(
+  convertToMap: boolean = false
+): Promise<GenreDto[] | Record<string, string>> {
+  try {
+    const { genres } = await fetch(
+      `${process.env.TMDB_BASE_URL}/genre/movie/list`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+        },
+      }
+    ).then((res) => res.json());
+
+    if (!convertToMap) {
+      return genres;
+    } else {
+      const map: Record<string, string> = {};
+
+      genres.forEach((genre: any) => {
+        map[genre.id] = genre.name;
+      });
+
+      return map;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
+  try {
+    const fetchMovieDetails = fetch(
+      `${process.env.TMDB_BASE_URL}/movie/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+        },
+      }
+    ).then((res) => res.json());
+
+    const fetchCasts = fetch(
+      `${process.env.TMDB_BASE_URL}/movie/${id}/credits`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+        },
+      }
+    ).then((res) => res.json());
+
+    const [tmdbMovieResults, tmdbCastsResults] = await Promise.all([
+      fetchMovieDetails,
+      fetchCasts,
+    ]);
+
+    const casts = tmdbCastsResults.cast
+      .sort((a: any, b: any) => a.order - b.order)
+      .slice(0, 5)
+      .map((cast: any) => ({
+        id: cast.id,
+        name: cast.name,
+        imageUrl: createTMDBImageUrl(cast.profile_path, "w200"),
+      }));
+
+    const result: MovieDetailsDto = {
+      id: tmdbMovieResults.id,
+      title: tmdbMovieResults.title,
+      backdropLargeUrl: createTMDBImageUrl(
+        tmdbMovieResults.backdrop_path,
+        "original"
+      ),
+      backdropSmallUrl: createTMDBImageUrl(
+        tmdbMovieResults.backdrop_path,
+        "w500"
+      ),
+      backdropLowResUrl: createTMDBImageUrl(
+        tmdbMovieResults.backdrop_path,
+        "w200"
+      ),
+      description: tmdbMovieResults.overview,
+      releaseDate: tmdbMovieResults.release_date,
+      budget: tmdbMovieResults.budget,
+      duration: tmdbMovieResults.runtime,
+      pg: tmdbMovieResults.adult ? "18+" : "PG",
+      genres: tmdbMovieResults.genres.map((genre: any) => genre.name),
+      rating: tmdbMovieResults.vote_average,
+      casts,
+    };
+
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}

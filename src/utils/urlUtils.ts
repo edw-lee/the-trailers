@@ -4,7 +4,7 @@ export function createBunnyVideoUrl(videoId: string) {
 
 export function createTMDBImageUrl(
   imagePath: string,
-  size: "original" | "w100" | "w200" | "w400" | "w500"
+  size: "original" | "w200" | "w300" | "w400" | "w500"
 ) {
   return `${process.env.NEXT_PUBLIC_TMDB_IMAGE_URL}/${size}${imagePath}`;
 }

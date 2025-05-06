@@ -1,8 +1,12 @@
 import NavBar from "@/components/NavBar";
 import { geistMono, geistSans } from "@/lib/fonts";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import type { Metadata } from "next";
-import "./globals.css";
 import Providers from "./_providers";
+import "./globals.css";
+
+config.autoAddCss = false;
 
 export const metadata: Metadata = {
   title: "The Trailers",

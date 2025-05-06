@@ -1,10 +1,10 @@
 import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
 import HeroBanner from "./_components/HeroBanner";
-import TrailersListSection from "./_components/TrailersListSection";
+import TrailersListSection from "../../components/TrailersListSection";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col gap-20">
       <HeroBanner />
       <TrailersListSection sectionType={SectionTypeEnums.POPULAR} />
       <TrailersListSection sectionType={SectionTypeEnums.TOP_RATED} />

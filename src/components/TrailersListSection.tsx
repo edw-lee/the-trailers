@@ -17,6 +17,7 @@ import { interpolateColor, stringToColour } from "@/utils/colorUtil";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { CircularProgress } from "@/components/ui/circular-progress";
+import Rating from "./Rating";
 
 const sectionHeaderMapping = {
   [SectionTypeEnums.NOW_PLAYING]: "Now Playing",
@@ -26,13 +27,15 @@ const sectionHeaderMapping = {
 };
 
 const sectionHeaderIconMapping = {
-  [SectionTypeEnums.NOW_PLAYING]: "./icons/clapperboard.png",
-  [SectionTypeEnums.POPULAR]: "./icons/flame.png",
-  [SectionTypeEnums.TOP_RATED]: "./icons/star.png",
-  [SectionTypeEnums.UPCOMING]: "./icons/megaphone.png",
+  [SectionTypeEnums.NOW_PLAYING]: "/icons/clapperboard.png",
+  [SectionTypeEnums.POPULAR]: "/icons/flame.png",
+  [SectionTypeEnums.TOP_RATED]: "/icons/star.png",
+  [SectionTypeEnums.UPCOMING]: "/icons/megaphone.png",
 };
 
 type TrailersListSectionProps = {
+  hideHeader?: boolean;
+  className?: string;
   sectionType: SectionTypeEnums;
 };
 
@@ -59,7 +62,7 @@ function TrailerSectionThumbnail({
   }
 
   return (
-    <div className="cursor-pointer">
+    <a href={`/details/${trailer.id}`} className="cursor-pointer">
       <img
         className="rounded-xl mb-5 transition-transform hover:scale-105 hover:drop-shadow-lg"
         src={trailer.posterUrl}
@@ -68,35 +71,24 @@ function TrailerSectionThumbnail({
       <div className="flex gap-3 items-center">
         <p>{dayjs(new Date(trailer.releaseDate)).format("MMM DD")}</p>
         {trailer.genre && (
-          <Badge className="hidden lg:inline"
+          <Badge
+            className="hidden lg:inline"
             variant={"outline"}
             style={{ borderColor: stringToColour(trailer.genre) }}
           >
             {trailer.genre}
           </Badge>
         )}
-        <CircularProgress
-          className="w-[40px]"
-          value={trailer.rating / 10}
-          fill={interpolateColor(trailer.rating, 0, 10, "#ded81f", "#6fed2b")}
-        >
-          <p
-            className={cn(
-              "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2",
-              "font-bold text-[10px]"
-            )}
-          >
-            {Math.round(trailer.rating * 10)}
-            <span className="text-[8px]">%</span>
-          </p>
-        </CircularProgress>
+        <Rating rating={trailer.rating} />
       </div>
-    </div>
+    </a>
   );
 }
 
 export default async function TrailersListSection({
   sectionType,
+  hideHeader,
+  className,
 }: TrailersListSectionProps) {
   let hasError = false;
   let trailers: SectionTrailerDto[] = Array.from({ length: 5 });
@@ -110,18 +102,20 @@ export default async function TrailersListSection({
   }
 
   return (
-    <div className={cn("w-full max-w-screen flex justify-center", "my-20")}>
+    <div className={cn("w-full max-w-screen flex justify-center", className)}>
       <div className="container">
-        <span className="flex flex-row gap-3 items-center mb-5">
-          <img
-            src={sectionHeaderIconMapping[sectionType]}
-            className="aspect-square object-contain"
-            width={20}
-          />
-          <p className="text-lg font-bold">
-            {sectionHeaderMapping[sectionType]}
-          </p>
-        </span>
+        {!hideHeader && (
+          <span className="flex flex-row gap-3 items-center mb-5">
+            <img
+              src={sectionHeaderIconMapping[sectionType]}
+              className="aspect-square object-contain"
+              width={20}
+            />
+            <p className="text-lg font-bold">
+              {sectionHeaderMapping[sectionType]}
+            </p>
+          </span>
+        )}
         <Carousel
           opts={{
             align: "start",
@@ -130,7 +124,7 @@ export default async function TrailersListSection({
           <CarouselPrevious />
           <CarouselContent>
             {trailers.map((trailer, index) => (
-              <CarouselItem key={index} className="basis-1/5 py-3">
+              <CarouselItem key={index} className="basis-1/5 m-3">
                 <TrailerSectionThumbnail
                   trailer={trailer}
                   hasError={hasError}

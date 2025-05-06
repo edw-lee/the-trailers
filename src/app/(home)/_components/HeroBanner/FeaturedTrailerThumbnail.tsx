@@ -7,6 +7,8 @@ import { useAppSelector } from "@/store/hooks";
 import { useGetFeaturedTrailers } from "@/hooks/data/trailers/useGetFeaturedTrailers";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 
 type FeaturedTrailerThumbnailProps = {
   trailer?: FeaturedTrailerDto;
@@ -57,16 +59,16 @@ export default function FeaturedTrailerThumbnail({
       <img className="object-cover" src={trailer.thumbnailUrl} />
       <span
         className={cn(
-          "absolute bg-lime-500 px-5 py-3 rounded-lg",
+          "absolute bg-lime-500 px-7 py-3 rounded-lg",
           "top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 transition-opacity",
           "group-hover:opacity-100",
           !isSelected ? "opacity-0" : "opacity-100"
         )}
       >
         {!isPlaying || !isSelected ? (
-          <Play fill="white" />
+          <FontAwesomeIcon icon={faPlay} fontSize={20} />
         ) : (
-          <Pause fill="white" />
+          <FontAwesomeIcon icon={faPause} fontSize={20} />
         )}
       </span>
       <Progress
