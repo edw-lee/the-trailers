@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     <div className="flex flex-col items-center">
       <Banner movieDetails={movieDetails} />
       <div className="container flex flex-col my-10 gap-10">
-        <div className="flex flex-row justify-between gap-20">
+        <div className="flex flex-row justify-between gap-3 sm:gap-20">
           <MovieDetailsSection header="Description">
             <p>{movieDetails.description}</p>
           </MovieDetailsSection>
@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </MovieDetailsSection>
         </div>
         <MovieDetailsSection header="Casts">
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-5 overflow-x-auto">
             {movieDetails.casts.map((cast) => (
               <CastAvatar
                 key={cast.id}

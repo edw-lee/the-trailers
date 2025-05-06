@@ -26,7 +26,7 @@ export default function NavBar() {
       className={cn(
         "flex justify-center fixed w-screen z-10 drop-shadow-md bg-transparent px-3",
         "transition-colors ease-in-out duration-300",
-        isScrolled && "bg-linear-to-b from-background to-background/0 to-95%"
+        isScrolled && "bg-background/90"
       )}
     >
       <div

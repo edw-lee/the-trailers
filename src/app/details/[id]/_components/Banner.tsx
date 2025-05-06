@@ -31,11 +31,11 @@ function BannerMovieInfo({ label, value, className }: BannerMovieInfo) {
     >
       <p
         className={cn(
-          "absolute top-0 left-2 h-full",
+          "absolute top-0 left-2 h-full rotate-180",
           "uppercase text-xs md:text-md lg:text-lg opacity-50 text-center",
           fjalla.className
         )}
-        style={{ writingMode: "sideways-lr" }}
+        style={{ writingMode: "vertical-lr" }}
       >
         {label}
       </p>
@@ -54,16 +54,23 @@ function BannerMovieInfo({ label, value, className }: BannerMovieInfo) {
 
 function BannerMovieInfoSection({ movieDetails }: BannerMovieInfoSectionProps) {
   return (
-    <div className="container">
-      <div className="flex gap-2 mb-2 drop-shadow-lg">
+    <div className="container px-2 sm:px-0">
+      <div className="flex gap-2 sm:gap-5 mb-2 drop-shadow">
         {movieDetails?.casts.slice(0, 3)?.map((cast, index) => (
-          <p key={index}>{cast.name}</p>
+          <p key={index} className="text-xs md:text-lg">
+            {cast.name}
+          </p>
         ))}
       </div>
-      <p className={cn(fjalla.className, "text-4xl uppercase mb-3")}>
+      <p
+        className={cn(
+          fjalla.className,
+          "text-2xl md:text-4xl uppercase text-ellipsis overflow-hidden whitespace-nowrap mb-2"
+        )}
+      >
         {movieDetails?.title}
       </p>
-      <div className="flex gap-2 mb-8 drop-shadow">
+      <div className="flex gap-2 mb-4 sm:mb-8 drop-shadow">
         {movieDetails?.genres.slice(0, 3)?.map((genre, index) => (
           <Badge
             key={index}
@@ -74,21 +81,14 @@ function BannerMovieInfoSection({ movieDetails }: BannerMovieInfoSectionProps) {
           </Badge>
         ))}
       </div>
-      <div className="flex gap-2 md:gap-3 lg:gap-5">
-        <PlayButton
-          movieDetails={movieDetails}
-        />
-        <BannerMovieInfo
-          className="hidden md:flex"
-          label="PG Rating"
-          value={movieDetails.pg}
-        />
+      <div className="flex gap-2 md:gap-3 lg:gap-5 overflow-x-auto no-scrollbar">
+        <PlayButton movieDetails={movieDetails} />
+        <BannerMovieInfo label="PG Rating" value={movieDetails.pg} />
         <BannerMovieInfo
           label="Release"
           value={dayjs(movieDetails.releaseDate).format("MMM DD, YY")}
         />
         <BannerMovieInfo
-          className="hidden lg:flex"
           label="Budget"
           value={`$${Intl.NumberFormat("en", { notation: "compact" }).format(
             movieDetails.budget
@@ -108,7 +108,7 @@ export default function Banner({ movieDetails }: BannerProps) {
     <div
       className={cn(
         "bg-black",
-        "w-full max-w-screen aspect-video max-h-[95vh]",
+        "w-full max-w-screen sm:aspect-video max-h-[95vh]",
         "relative"
       )}
     >
@@ -124,7 +124,7 @@ export default function Banner({ movieDetails }: BannerProps) {
       <div
         className={cn(
           "w-full",
-          "absolute bottom-0 flex flex-col items-center",
+          "sm:absolute bottom-0 flex flex-col items-center mt-3",
           "bg-linear-to-t from-background from-10% to-background/0 to-60%"
         )}
       >

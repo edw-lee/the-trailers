@@ -10,7 +10,7 @@ type RatingProps = {
 export default function Rating({ className, rating }: RatingProps) {
   return (
     <CircularProgress
-      className={cn("w-[40px]", className)}
+      className={cn("w-[40px] relative", className)}
       value={rating / 10}
       fill={interpolateColor(rating, 0, 10, "#ded81f", "#6fed2b")}
     >

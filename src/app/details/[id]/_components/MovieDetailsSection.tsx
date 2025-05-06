@@ -13,7 +13,7 @@ export default function MovieDetailsSection({
   className,
 }: MovieDetailsSectionProps) {
   return (
-    <div className={cn("flex flex-col gap-5", className)}>
+    <div className={cn("flex flex-col gap-5 px-2 sm:px-0 justify-start", className)}>
       <p className={cn("uppercase opacity-50", fjalla.className)}>{header}</p>
       {children}
     </div>

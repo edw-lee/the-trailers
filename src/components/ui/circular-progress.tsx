@@ -13,36 +13,31 @@ function CircularProgress({
   background = "white",
   fill = "blue",
   className,
-  children
+  children,
 }: SpinnerProps) {
   return (
-    <div className={cn("h-full aspect-square", className)}>
-      <div className="relative w-full h-full">
-        <svg
-          className="absolute top-0 left-0 w-full h-full transform -rotate-90"
-          viewBox="0 0 100 100"
-        >
-          <circle
-            cx="50"
-            cy="50"
-            r="40"
-            fill="transparent"
-            stroke={background}
-            strokeWidth="8"
-          />
-          <circle
-            cx="50"
-            cy="50"
-            r="40"
-            fill="transparent"
-            stroke={fill}
-            strokeWidth="8"
-            strokeDasharray="251.2"
-            strokeDashoffset={251.2 * (1 - value)}
-          />
-        </svg>
-        {children}
-      </div>
+    <div className={cn("aspect-square", className)}>
+      <svg className="transform -rotate-90" viewBox="0 0 100 100">
+        <circle
+          cx="50"
+          cy="50"
+          r="40"
+          fill="transparent"
+          stroke={background}
+          strokeWidth="8"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r="40"
+          fill="transparent"
+          stroke={fill}
+          strokeWidth="8"
+          strokeDasharray="251.2"
+          strokeDashoffset={251.2 * (1 - value)}
+        />
+      </svg>
+      {children}
     </div>
   );
 }

@@ -9,11 +9,7 @@ import {
   setShouldPlayVideo,
 } from "@/store/slices/homeSlice";
 import {
-  ArrowLeft,
-  ArrowLeftCircle,
-  ChevronLeft,
-  ChevronRight,
-  SquareArrowOutUpRight,
+  SquareArrowOutUpRight
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
@@ -26,7 +22,6 @@ import {
 } from "../../../../components/ui/carousel";
 import FeaturedTrailerThumbnail from "./FeaturedTrailerThumbnail";
 import MuteButton from "./MuteButton";
-import { Button } from "@/components/ui/button";
 
 type FeaturedTrailerSelectorProps = {
   classNames?: string;

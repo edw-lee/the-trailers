@@ -64,7 +64,7 @@ function TrailerSectionThumbnail({
         className="rounded-xl mb-5 transition-transform hover:scale-105 hover:drop-shadow-lg"
         src={trailer.posterUrl}
       />
-      <p className={cn(fjalla.className, "mb-2")}>{trailer.title}</p>
+      <p className={cn(fjalla.className, "mb-2 overflow-hidden text-ellipsis whitespace-nowrap")}>{trailer.title}</p>
       <div className="flex gap-3 items-center">
         <p>{dayjs(new Date(trailer.releaseDate)).format("MMM DD")}</p>
         {trailer.genre && (
