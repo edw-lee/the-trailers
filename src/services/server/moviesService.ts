@@ -1,8 +1,9 @@
 import { GenreDto } from "@/dtos/movieDetails/GenreDto";
 import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
 import { SearchMovieDto } from "@/dtos/trailers/SearchMovieDto";
-import { createTMDBImageUrl } from "@/utils/urlUtils";
+import { TMDBMovieDto } from "@/dtos/trailers/TMDBMovieDto";
 import { FetchClient } from "@/lib/fetchClient";
+import { createTMDBImageUrl } from "@/utils/urlUtils";
 
 const fetchInstance = new FetchClient({
   baseURL: process.env.TMDB_BASE_URL,
@@ -26,7 +27,7 @@ export async function getGenres(
     } else {
       const map: Record<string, string> = {};
 
-      genres.forEach((genre: any) => {
+      genres.forEach((genre: GenreDto) => {
         map[genre.id] = genre.name;
       });
 
@@ -55,16 +56,16 @@ export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
       await Promise.all([fetchMovieDetails, fetchCasts, fetchVideos]);
 
     const casts = tmdbCastsResults.cast
-      .sort((a: any, b: any) => a.order - b.order)
+      .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
       .slice(0, 5)
-      .map((cast: any) => ({
+      .map((cast: { id: string; name: string; profile_path: string }) => ({
         id: cast.id,
         name: cast.name,
         imageUrl: createTMDBImageUrl(cast.profile_path, "w200"),
       }));
 
     const youtubeVideo = tmdbVideosResults.results.find(
-      (video: any) =>
+      (video: { site: string; type: string }) =>
         video.site.toLowerCase() == "youtube" &&
         video.type.toLowerCase() == "trailer"
     );
@@ -89,7 +90,9 @@ export async function getMovieDetails(id: string): Promise<MovieDetailsDto> {
       budget: tmdbMovieResults.budget,
       duration: tmdbMovieResults.runtime,
       pg: tmdbMovieResults.adult ? "18+" : "PG",
-      genres: tmdbMovieResults.genres.map((genre: any) => genre.name),
+      genres: tmdbMovieResults.genres.map(
+        (genre: { name: string }) => genre.name
+      ),
       rating: tmdbMovieResults.vote_average,
       casts,
       youtubeId: youtubeVideo?.key,
@@ -112,8 +115,8 @@ export async function searchMovies(query: string): Promise<SearchMovieDto[]> {
       .then((res) => res.json());
 
     const results: SearchMovieDto[] = (
-      tmdbMovieResults as Array<any>
-    ).map<SearchMovieDto>((movieData: any) => ({
+      tmdbMovieResults as Array<TMDBMovieDto>
+    ).map<SearchMovieDto>((movieData) => ({
       id: movieData.id,
       title: movieData.title,
       thumbnailUrl: createTMDBImageUrl(movieData.poster_path, "w200"),

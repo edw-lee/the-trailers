@@ -1,22 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import ProgressiveImage from "@/components/ui/progressive-image";
 import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
 import { fjalla } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import PlayButton from "./PlayButton";
-import { createBunnyVideoUrl } from "@/utils/urlUtils";
 
 export type BannerMovieInfo = {
   label: string;

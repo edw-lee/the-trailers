@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,9 +32,9 @@ export default function NavBar() {
       <div
         className={"container flex flex-row justify-between items-center py-3"}
       >
-        <a href="/">
+        <Link href="/">
           <Logo />
-        </a>
+        </Link>
         <SearchBar />
       </div>
     </nav>

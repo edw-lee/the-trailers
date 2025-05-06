@@ -2,12 +2,12 @@
 
 import { SearchMovieDto } from "@/dtos/trailers/SearchMovieDto";
 import { useSearchMovies } from "@/hooks/data/trailers/useSearchMovies";
+import { useDebouncer } from "@/hooks/useDebouncer";
 import { cn } from "@/lib/utils";
-import { DeleteIcon, SearchIcon, X } from "lucide-react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { SearchIcon, X } from "lucide-react";
+import { ChangeEvent, useState } from "react";
 import { Input } from "./ui/input";
 import { Spinner } from "./ui/spinner";
-import { useDebouncer } from "@/hooks/useDebouncer";
 
 type ResultItemProps = {
   movie: SearchMovieDto;

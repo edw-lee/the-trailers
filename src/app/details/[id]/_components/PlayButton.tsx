@@ -3,14 +3,12 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
 import { cn } from "@/lib/utils";
-import { createBunnyVideoUrl } from "@/utils/urlUtils";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

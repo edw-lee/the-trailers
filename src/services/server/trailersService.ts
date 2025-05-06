@@ -5,6 +5,7 @@ import { getGenres } from "./moviesService";
 import { createServerClient } from "@/utils/supabase/server";
 import { GetFeaturedTrailersResponseDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
 import { FetchClient } from "@/lib/fetchClient";
+import { TMDBMovieDto } from "@/dtos/trailers/TMDBMovieDto";
 
 const fetchInstance = new FetchClient({
   baseURL: process.env.TMDB_BASE_URL,
@@ -50,8 +51,8 @@ export async function getSectionTrailers(
       .then((res) => res.json());
 
     const results: SectionTrailerDto[] = (
-      tmdbMovieResults as Array<any>
-    ).map<SectionTrailerDto>((movieData: any) => ({
+      tmdbMovieResults as Array<TMDBMovieDto>
+    ).map<SectionTrailerDto>((movieData) => ({
       id: movieData.id,
       title: movieData.title,
       releaseDate: movieData.release_date,

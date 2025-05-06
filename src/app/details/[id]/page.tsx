@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   try {
     movieDetails = await getMovieDetails(id);
-  } catch (error) {
+  } catch {
     return notFound();
   }
 

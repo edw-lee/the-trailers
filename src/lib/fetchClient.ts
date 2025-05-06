@@ -71,7 +71,7 @@ export class FetchClient {
           let body;
           try {
             body = await response.json();
-          } catch (error) {}
+          } catch {}
 
           const error = <Error>{
             status: response.status,

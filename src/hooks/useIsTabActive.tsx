@@ -6,17 +6,13 @@ export default function useIsTabActive() {
   const [isActive, setIsActive] = useState(true);
 
   const visibilityChangeHandler = () => {
-    if (document.visibilityState == "visible") {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
+    setIsActive(document.visibilityState == "visible");
   };
 
   useEffect(() => {
     document.addEventListener("visibilitychange", visibilityChangeHandler);
 
-    () => {
+    return () => {
       document.removeEventListener("visibilitychange", visibilityChangeHandler);
     };
   }, []);
