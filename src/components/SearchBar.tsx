@@ -96,7 +96,7 @@ export default function SearchBar() {
       </div>
       <div
         className={cn(
-          "absolute",
+          "absolute w-[300px]",
           "bg-background rounded-md my-1 rounded-scrollbar",
           "max-h-[500px] overflow-y-auto opacity-0 transition-opacity delay-150 duration-350",
           movies?.length && "opacity-100 p-2 border"
