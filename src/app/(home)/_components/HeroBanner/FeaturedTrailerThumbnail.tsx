@@ -50,17 +50,18 @@ export default function FeaturedTrailerThumbnail({
       className={cn(
         "aspect-video rounded-2xl overflow-hidden",
         "p-0 relative cursor-pointer",
-        "border border-4 border-transparent",
+        "border border-3 sm:border-4 border-transparent",
         "group hover:border-white",
         isSelected && "border-white"
       )}
     >
       <img className="object-cover" src={trailer.thumbnailUrl} />
+      {/* Play/Pause indicator */}
       <span
         className={cn(
-          "absolute w-[70px] aspect-3/2 flex justify-center items-center",
+          "absolute w-[50px] sm:w-[70px] aspect-3/2 flex justify-center items-center",
           "top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 transition-opacity",
-          "group-hover:opacity-100 bg-lime-500 rounded-lg",
+          "group-hover:opacity-100 bg-lime-500 rounded-sm sm:rounded-lg",
           !isSelected ? "opacity-0" : "opacity-100"
         )}
       >
@@ -72,7 +73,7 @@ export default function FeaturedTrailerThumbnail({
       </span>
       <Progress
         className={cn(
-          "absolute bottom-0 left-0 right-0 h-[8px]",
+          "absolute bottom-0 left-0 right-0 h-[4px] sm:h-[8px]",
           !isSelected ? "opacity-0" : "opacity-100"
         )}
         value={isSelected ? playProgress * 100 : 0}

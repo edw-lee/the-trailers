@@ -9,16 +9,12 @@ export default function MuteButton() {
   const dispatch = useAppDispatch();
 
   const onClick = () => {
-    dispatch(setIsMuted(!isMuted));    
+    dispatch(setIsMuted(!isMuted));
   };
 
   return (
     <button onClick={onClick} className="drop-shadow cursor-pointer">
-      {isMuted ? (
-        <VolumeX fill="white" size={30} />
-      ) : (
-        <Volume2 fill="white" size={30} />
-      )}
+      {isMuted ? <VolumeX fill="white" /> : <Volume2 fill="white" />}
     </button>
   );
 }

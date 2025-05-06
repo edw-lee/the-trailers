@@ -4,7 +4,7 @@ import TrailersListSection from "../../components/TrailersListSection";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-5 md:gap-20">
       <HeroBanner />
       <TrailersListSection sectionType={SectionTypeEnums.POPULAR} />
       <TrailersListSection sectionType={SectionTypeEnums.TOP_RATED} />

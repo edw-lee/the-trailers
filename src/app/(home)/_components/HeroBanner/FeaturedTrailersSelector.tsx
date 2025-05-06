@@ -8,7 +8,13 @@ import {
   setSelectedTrailerIndex,
   setShouldPlayVideo,
 } from "@/store/slices/homeSlice";
-import { SquareArrowOutUpRight } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowLeftCircle,
+  ChevronLeft,
+  ChevronRight,
+  SquareArrowOutUpRight,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Carousel,
@@ -20,6 +26,7 @@ import {
 } from "../../../../components/ui/carousel";
 import FeaturedTrailerThumbnail from "./FeaturedTrailerThumbnail";
 import MuteButton from "./MuteButton";
+import { Button } from "@/components/ui/button";
 
 type FeaturedTrailerSelectorProps = {
   classNames?: string;
@@ -63,20 +70,27 @@ export default function FeaturedTrailerSelector({
   }, [selectedTrailerIndex]);
 
   return (
-    <div className={cn("w-full container", classNames)}>
+    <div className={cn("w-full container px-2", classNames)}>
       <div className="flex gap-2 mb-2 drop-shadow">
         {selectedTrailer?.casts.slice(0, 3)?.map((cast, index) => (
-          <p key={index}>{cast}</p>
+          <p key={index} className="text-xs md:text-lg">
+            {cast}
+          </p>
         ))}
       </div>
-      <div className="flex items-center justify-between">
-        <p className={cn(fjalla.className, "text-4xl uppercase mb-3")}>
+      <div className="flex items-center justify-between mb-3 gap-1">
+        <p
+          className={cn(
+            fjalla.className,
+            "text-2xl md:text-4xl uppercase text-ellipsis overflow-hidden whitespace-nowrap"
+          )}
+        >
           {selectedTrailer?.title}
         </p>
 
         <div className="flex gap-3 items-center">
           <a href={`/details/${selectedTrailer?.tmdbId}`}>
-            <SquareArrowOutUpRight size={30}/>
+            <SquareArrowOutUpRight />
           </a>
 
           <MuteButton />
@@ -90,7 +104,7 @@ export default function FeaturedTrailerSelector({
           }}
           setApi={setCarouselApi}
         >
-          <CarouselPrevious
+          <CarouselPrevious className="hidden sm:flex"
             disabled={selectedTrailerIndex == 0}
             onClick={() => onPrevClick()}
           />
@@ -98,7 +112,10 @@ export default function FeaturedTrailerSelector({
             {featuredTrailers?.map((trailer, index) => {
               const isSelected = index == selectedTrailerIndex;
               return (
-                <CarouselItem key={index} className="basis-1/3 xl:basis-1/4">
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 md:basis-1/3 xl:basis-1/4"
+                >
                   <FeaturedTrailerThumbnail
                     trailer={trailer}
                     isSelected={isSelected}
@@ -108,7 +125,7 @@ export default function FeaturedTrailerSelector({
               );
             })}
           </CarouselContent>
-          <CarouselNext
+          <CarouselNext className="hidden sm:flex"
             disabled={selectedTrailerIndex == featuredTrailers.length - 1}
             onClick={() => onNextClick()}
           />

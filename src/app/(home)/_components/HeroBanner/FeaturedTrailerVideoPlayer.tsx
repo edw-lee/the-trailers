@@ -97,7 +97,7 @@ export default function FeaturedTrailerVideoPlayer({
   return (
     <video
       ref={videoRef}
-      className="w-full h-full object-cover"
+      className="w-full h-full object-cover aspect-video"
       src={createBunnyVideoUrl(selectedTrailer.bunnyCDNVideoId)}
       autoPlay
       muted={!isInteracted || isMuted}

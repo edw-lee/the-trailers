@@ -9,16 +9,14 @@ export default async function HeroBanner() {
   return (
     <div
       className={cn(
-        "bg-black",
-        "w-full max-w-screen aspect-video max-h-[95vh]",
-        "relative"
+        "w-full max-w-screen sm:aspect-video max-h-[95vh]",
+        "relative bg-black"
       )}
     >
       <FeaturedTrailerVideoPlayer featuredTrailers={featuredTrailers.results} />
       <div
         className={cn(
-          "w-full",
-          "absolute bottom-0 flex flex-col items-center",
+          "w-full sm:absolute bottom-0 flex flex-col items-center mt-3",
           "bg-linear-to-t from-background from-10% to-background/0 to-60%"
         )}
       >

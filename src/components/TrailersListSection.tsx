@@ -93,13 +93,12 @@ export default async function TrailersListSection({
   try {
     const results = await getSectionTrailers(sectionType);
     trailers = results;
-  } catch (error) {
+  } catch {
     hasError = true;
-    console.log(error);
   }
 
   return (
-    <div className={cn("w-full max-w-screen flex justify-center", className)}>
+    <div className={cn("w-full max-w-screen flex justify-center px-2", className)}>
       <div className="container">
         {!hideHeader && (
           <span className="flex flex-row gap-3 items-center mb-5">
@@ -118,10 +117,10 @@ export default async function TrailersListSection({
             align: "start",
           }}
         >
-          <CarouselPrevious />
+          <CarouselPrevious className="hidden sm:flex"/>
           <CarouselContent>
             {trailers.map((trailer, index) => (
-              <CarouselItem key={index} className="basis-1/5 m-3">
+              <CarouselItem key={index} className="basis-1/3 md:basis-1/5 sm:m-3">
                 <TrailerSectionThumbnail
                   trailer={trailer}
                   hasError={hasError}
@@ -129,7 +128,7 @@ export default async function TrailersListSection({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselNext />
+          <CarouselNext className="hidden sm:flex"/>
         </Carousel>
       </div>
     </div>
