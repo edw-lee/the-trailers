@@ -1,8 +1,12 @@
 import { GenreDto } from "@/dtos/movieDetails/GenreDto";
 import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
+import { GetFeaturedTrailersResponseDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
 import { SearchMovieDto } from "@/dtos/trailers/SearchMovieDto";
+import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
 import { TMDBMovieDto } from "@/dtos/trailers/TMDBMovieDto";
+import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
 import { FetchClient } from "@/lib/fetchClient";
+import { createServerClient } from "@/utils/supabase/server";
 import { createTMDBImageUrl } from "@/utils/urlUtils";
 
 const fetchInstance = new FetchClient({
@@ -13,6 +17,59 @@ const fetchInstance = new FetchClient({
     },
   },
 });
+
+export async function getFeaturedTrailers(): Promise<GetFeaturedTrailersResponseDto> {
+  const supabase = await createServerClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("random_featured_trailers")
+      .select()
+      .limit(10);
+
+    if (error) {
+      throw error;
+    }
+
+    const response: GetFeaturedTrailersResponseDto = {
+      results: data,
+    };
+
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getSectionTrailers(
+  sectionType: SectionTypeEnums
+): Promise<SectionTrailerDto[]> {
+  try {
+    const genres = (await getGenres(true)) as Record<string, string>;
+
+    const { results: tmdbMovieResults } = await fetchInstance
+      .fetch(`/movie/${sectionType}`)
+      .then((res) => res.json());
+
+    const results: SectionTrailerDto[] = (
+      tmdbMovieResults as Array<TMDBMovieDto>
+    ).map<SectionTrailerDto>((movieData) => ({
+      id: movieData.id,
+      title: movieData.title,
+      releaseDate: movieData.release_date,
+      genre: movieData.genre_ids?.length
+        ? genres[movieData.genre_ids[0]]
+        : undefined,
+      posterUrl: createTMDBImageUrl(movieData.poster_path, "w400"),
+      rating: movieData.vote_average,
+    }));
+
+    return results;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function getGenres(
   convertToMap: boolean = false

@@ -11,7 +11,7 @@ import { SectionTrailerDto } from "@/dtos/trailers/SectionTrailerDto";
 import { SectionTypeEnums } from "@/enums/services/sectionTypeEnums";
 import { fjalla } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { getSectionTrailers } from "@/services/server/trailersService";
+import { getSectionTrailers } from "@/services/server/moviesService";
 import { stringToColour } from "@/utils/colorUtil";
 import dayjs from "dayjs";
 import Rating from "./Rating";

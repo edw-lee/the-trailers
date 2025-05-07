@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import FeaturedTrailerSelector from "./FeaturedTrailersSelector";
 import FeaturedTrailerVideoPlayer from "./FeaturedTrailerVideoPlayer";
-import { getFeaturedTrailers } from "@/services/server/trailersService";
+import { getFeaturedTrailers } from "@/services/server/moviesService";
 
 export default async function HeroBanner() {
   const featuredTrailers = await getFeaturedTrailers();
