@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Trailers
 
-## Getting Started
+![The Trailers](./resources/screenshot.png)
 
-First, run the development server:
+**The Trailers** is a movie trailer streaming website. The design is based on [The Trailers (from Dribble)](https://dribbble.com/shots/20409351-TheTrailers-Mockup)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+_Disclaimer: This is just a case study, not for production use._
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[The Trailers](https://the-trailers.vercel.app)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Tech Stack
 
-## Learn More
+- Next.js
+- ShadCN UI
+- Tailwind CSS
+- BunnyCDN
+- Supabase
+- PostgreSQL
+- TMDB API
 
-To learn more about Next.js, take a look at the following resources:
+### System Design
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Components Diagram
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![Components Diagram](./resources/the-trailers-components-diagram.png)
 
-## Deploy on Vercel
+- Supabase - Stores the featured trailers data shown in the home hero banner section.
+- BunnyCDN - Streams the featured trailer videos.
+- TMDB - Fetches movie data.
+- Youtube - Streams movie trailer video for non-featured trailers.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Featured trailers are stored separately because TMDB does not provide an API that returns trailer videos that can be played using the HTML video player. So, the featured trailers are stored in BunnyCDN instead.*
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Data Transfer Objects
+
+![Data Transfer Objects](./resources/the-trailers-dtos.png)
+
+- FeatureTrailerDto - For featured trailers in the home hero banner section.
+- SearchMovieDto - For search movie results.
+- MovieDetailsDto - For movie details.
