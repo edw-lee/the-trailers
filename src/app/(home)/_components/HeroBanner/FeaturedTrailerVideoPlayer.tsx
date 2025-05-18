@@ -78,9 +78,12 @@ export default function FeaturedTrailerVideoPlayer({
     }
   }, [shouldPlayVideo]);
 
-  if (!featuredTrailers) {
+  if (!featuredTrailers?.length) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div
+        data-testid="featured-trailer-video-player-loading"
+        className="w-full h-full flex items-center justify-center"
+      >
         <Spinner fill="oklch(76.8% 0.233 130.85)" />
       </div>
     );
@@ -88,7 +91,10 @@ export default function FeaturedTrailerVideoPlayer({
 
   if (!selectedTrailer) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div
+        data-testid="featured-trailer-video-player-error"
+        className="w-full h-full flex items-center justify-center"
+      >
         <AlertCircle color="red" />
       </div>
     );
@@ -96,10 +102,12 @@ export default function FeaturedTrailerVideoPlayer({
 
   return (
     <video
+      data-testid="featured-trailer-video-player"
       ref={videoRef}
       className="w-full h-full object-cover aspect-video"
       src={createBunnyVideoUrl(selectedTrailer.bunnyCDNVideoId)}
       autoPlay
+      playsInline
       muted={!isInteracted || isMuted}
       onPlay={onVideoPlay}
       onPause={onVideoPause}

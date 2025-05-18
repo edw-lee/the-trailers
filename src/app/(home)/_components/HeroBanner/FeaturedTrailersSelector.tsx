@@ -8,9 +8,7 @@ import {
   setSelectedTrailerIndex,
   setShouldPlayVideo,
 } from "@/store/slices/homeSlice";
-import {
-  SquareArrowOutUpRight
-} from "lucide-react";
+import { SquareArrowOutUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Carousel,
@@ -65,7 +63,10 @@ export default function FeaturedTrailerSelector({
   }, [selectedTrailerIndex]);
 
   return (
-    <div className={cn("w-full container px-2", classNames)}>
+    <div
+      className={cn("w-full container px-2", classNames)}
+      data-testid="featured-trailers-selector"
+    >
       <div className="flex gap-2 mb-2 drop-shadow">
         {selectedTrailer?.casts.slice(0, 3)?.map((cast, index) => (
           <p key={index} className="text-xs md:text-lg">
@@ -84,7 +85,10 @@ export default function FeaturedTrailerSelector({
         </p>
 
         <div className="flex gap-3 items-center">
-          <a href={`/details/${selectedTrailer?.tmdbId}`}>
+          <a
+            data-testid="details-link"
+            href={`/details/${selectedTrailer?.tmdbId}`}
+          >
             <SquareArrowOutUpRight />
           </a>
 
@@ -99,7 +103,8 @@ export default function FeaturedTrailerSelector({
           }}
           setApi={setCarouselApi}
         >
-          <CarouselPrevious className="hidden sm:flex"
+          <CarouselPrevious data-testid="previous-button"
+            className="hidden sm:flex"
             disabled={selectedTrailerIndex == 0}
             onClick={() => onPrevClick()}
           />
@@ -120,7 +125,9 @@ export default function FeaturedTrailerSelector({
               );
             })}
           </CarouselContent>
-          <CarouselNext className="hidden sm:flex"
+          <CarouselNext
+            data-testid="next-button"
+            className="hidden sm:flex"
             disabled={selectedTrailerIndex == featuredTrailers.length - 1}
             onClick={() => onNextClick()}
           />

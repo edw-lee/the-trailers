@@ -12,7 +12,7 @@ export default function StoreProvider({
   const storeRef = useRef<AppStore>(undefined);
   if (!storeRef.current) {
     storeRef.current = makeStore();
-  }
+  }  
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 }

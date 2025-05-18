@@ -1,14 +1,26 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import homeReducer from "./slices/homeSlice";
 
-export const makeStore = () => {
+import type { HomeState } from "./slices/homeSlice";
+
+export interface RootState {
+  home: HomeState;
+}
+
+const rootReducer = combineReducers({
+  home: homeReducer,
+});
+
+export const makeStore = (preloadedState?: Partial<RootState>) => {
   return configureStore({
-    reducer: {
-      home: homeReducer,
-    },
+    reducer: rootReducer,
+    ...(preloadedState && { preloadedState }),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
   });
 };
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
