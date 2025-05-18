@@ -1,45 +1,27 @@
 // src/app/details/[id]/_components/PlayButton.test.tsx
-import { render, screen, fireEvent } from "@testing-library/react";
+import { mockMovieDetails } from "@/mocks/movieDetailsMock";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import PlayButton from "./PlayButton";
-import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
-
-const mockMovieDetails: MovieDetailsDto = {
-  id: "1",
-  title: "Inception",
-  backdropLargeUrl: "https://example.com/backdrop-large.jpg",
-  backdropSmallUrl: "https://example.com/backdrop-small.jpg",
-  backdropLowResUrl: "https://example.com/backdrop-low-res.jpg",
-  casts: [
-    {
-      id: "1",
-      name: "Leonardo DiCaprio",
-      imageUrl: "https://example.com/leonardo.jpg",
-    },
-  ],
-  description:
-    "A thief who steals corporate secrets through the use of dream-sharing technology.",
-  genres: ["Action", "Sci-Fi"],
-  pg: "PG-13",
-  rating: 8.8,
-  releaseDate: "2010-07-16",
-  budget: 160000000,
-  duration: 148,
-  youtubeId: "testYoutubeId123",
-};
 
 describe("PlayButton", () => {
-  it("renders the play button with correct accessibility attributes", () => {
-    render(<PlayButton movieDetails={mockMovieDetails} />);
+  let button: HTMLElement;
 
-    const button = screen.getByRole("button", { name: /play-button/i });
+  beforeEach(() => {
+    render(<PlayButton movieDetails={mockMovieDetails} />);
+    button = screen.getByRole("button", { name: /play button/i });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+  });
+
+  it("renders the play button with correct accessibility attributes", () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute("aria-label", "play button");
   });
 
   it("opens the dialog when the button is clicked", () => {
-    render(<PlayButton movieDetails={mockMovieDetails} />);
-
-    const button = screen.getByRole("button", { name: /play-button/i });
     fireEvent.click(button);
 
     // Check if dialog content is rendered
@@ -50,10 +32,6 @@ describe("PlayButton", () => {
   });
 
   it("displays the YouTube iframe with correct src", () => {
-    render(<PlayButton movieDetails={mockMovieDetails} />);
-
-    // Open the dialog
-    const button = screen.getByRole("button", { name: /play-button/i });
     fireEvent.click(button);
 
     const iframe = screen.getByTitle("YouTube video player");
@@ -65,9 +43,6 @@ describe("PlayButton", () => {
   });
 
   it("applies correct styling classes", () => {
-    render(<PlayButton movieDetails={mockMovieDetails} />);
-
-    const button = screen.getByRole("button", { name: /play-button/i });
     expect(button).toHaveClass(
       "flex",
       "justify-center",
@@ -96,10 +71,7 @@ describe("PlayButton", () => {
   });
 
   it("matches dialog content structure", () => {
-    render(<PlayButton movieDetails={mockMovieDetails} />);
-
     // Open the dialog
-    const button = screen.getByRole("button", { name: /play-button/i });
     fireEvent.click(button);
 
     // Check dialog structure
