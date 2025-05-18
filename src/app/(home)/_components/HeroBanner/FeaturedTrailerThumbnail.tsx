@@ -32,7 +32,7 @@ export default function FeaturedTrailerThumbnail({
 
   if (hasError || !trailer) {
     return (
-      <div
+      <div data-testid="featured-trailer-thumbnail-error"
         className={cn(
           "aspect-video rounded-2xl",
           "flex justify-center items-center",
@@ -45,7 +45,7 @@ export default function FeaturedTrailerThumbnail({
   }
 
   return (
-    <button
+    <button data-testid="featured-trailer-thumbnail"
       onClick={onClick}
       className={cn(
         "aspect-video rounded-2xl overflow-hidden",
@@ -57,7 +57,7 @@ export default function FeaturedTrailerThumbnail({
     >
       <img className="object-cover" src={trailer.thumbnailUrl} />
       {/* Play/Pause indicator */}
-      <span
+      <span data-testid="play-pause-indicator"
         className={cn(
           "absolute w-[50px] sm:w-[70px] aspect-3/2 flex justify-center items-center",
           "top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 transition-opacity",

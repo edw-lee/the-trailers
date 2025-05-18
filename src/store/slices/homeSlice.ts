@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type HomeState = {
+export type HomeState = {
   selectedTrailerIndex: number;
   isPlaying: boolean;
   playProgress: number;

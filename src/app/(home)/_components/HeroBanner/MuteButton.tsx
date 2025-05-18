@@ -13,8 +13,18 @@ export default function MuteButton() {
   };
 
   return (
-    <button onClick={onClick} className="drop-shadow cursor-pointer">
-      {isMuted ? <VolumeX fill="white" /> : <Volume2 fill="white" />}
+    <button 
+      onClick={onClick} 
+      className="drop-shadow cursor-pointer" 
+      data-testid="mute-button"
+      aria-label={isMuted ? "Unmute" : "Mute"}
+      type="button"
+    >
+      {isMuted ? (
+        <VolumeX data-testid="volume-icon" fill="white" className="lucide-volume-x" />
+      ) : (
+        <Volume2 data-testid="volume-icon" fill="white" className="lucide-volume-2" />
+      )}
     </button>
   );
 }

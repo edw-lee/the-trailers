@@ -105,7 +105,7 @@ function BannerMovieInfoSection({ movieDetails }: BannerMovieInfoSectionProps) {
 
 export default function Banner({ movieDetails }: BannerProps) {
   return (
-    <div
+    <div role="banner"
       className={cn(
         "bg-black",
         "w-full max-w-screen sm:aspect-video max-h-[95vh]",
