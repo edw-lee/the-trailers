@@ -1,14 +1,13 @@
-import { renderWithRedux } from "@/utils/testUtils";
-import FeaturedTrailerVideoPlayer from "./FeaturedTrailerVideoPlayer";
-import { screen, fireEvent, act } from "@testing-library/react";
-import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
-import { RootState } from "@/store/store";
+import { mockFeaturedTrailers } from "@/mocks/featuredTrailersMock";
 import {
-  setupMediaElementMocks,
   mediaElementMocks,
   resetMediaElementMocks,
+  setupMediaElementMocks,
 } from "@/mocks/htmlMediaElementMock";
-import { setShouldPlayVideo } from "@/store/slices/homeSlice";
+import { RootState } from "@/store/store";
+import { renderWithRedux } from "@/utils/testUtils";
+import { fireEvent, screen } from "@testing-library/react";
+import FeaturedTrailerVideoPlayer from "./FeaturedTrailerVideoPlayer";
 
 // Setup media element mocks before tests
 beforeAll(() => {
@@ -29,33 +28,6 @@ const getInitialState = (overrides: Partial<RootState["home"]> = {}) => ({
   isMuted: false,
   ...overrides,
 });
-
-const mockFeaturedTrailers: FeaturedTrailerDto[] = [
-  {
-    id: "1",
-    slug: "movie-1",
-    tmdbId: "1",
-    bunnyCDNVideoId: "1",
-    title: "Movie 1",
-    casts: ["John Doe", "Jane Doe"],
-    description: "Movie 1 description",
-    backdropUrl: "https://picsum.photos/200/300",
-    posterUrl: "https://picsum.photos/200/300",
-    thumbnailUrl: "https://picsum.photos/200/300",
-  },
-  {
-    id: "2",
-    slug: "movie-2",
-    tmdbId: "2",
-    bunnyCDNVideoId: "2",
-    title: "Movie 2",
-    casts: ["John Doe", "Jane Doe"],
-    description: "Movie 2 description",
-    backdropUrl: "https://picsum.photos/200/300",
-    posterUrl: "https://picsum.photos/200/300",
-    thumbnailUrl: "https://picsum.photos/200/300",
-  },
-];
 
 describe("FeaturedTrailerVideoPlayer", () => {
   it("should render the featured trailer video player", () => {

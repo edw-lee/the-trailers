@@ -1,8 +1,8 @@
-import { renderWithRedux } from "@/utils/testUtils";
-import FeaturedTrailerThumbnail from "./FeaturedTrailerThumbnail";
-import { screen, fireEvent } from "@testing-library/react";
-import { FeaturedTrailerDto } from "@/dtos/trailers/GetFeaturedTrailersResponseDto";
+import { mockFeaturedTrailers } from "@/mocks/featuredTrailersMock";
 import { RootState } from "@/store/store";
+import { renderWithRedux } from "@/utils/testUtils";
+import { fireEvent, screen } from "@testing-library/react";
+import FeaturedTrailerThumbnail from "./FeaturedTrailerThumbnail";
 
 // Helper to get initial state with overrides
 const getInitialState = (overrides: Partial<RootState["home"]> = {}) => ({
@@ -14,18 +14,7 @@ const getInitialState = (overrides: Partial<RootState["home"]> = {}) => ({
   ...overrides,
 });
 
-const mockTrailer: FeaturedTrailerDto = {
-  id: "1",
-  slug: "movie-1",
-  tmdbId: "1",
-  bunnyCDNVideoId: "1",
-  title: "Movie 1",
-  casts: ["John Doe", "Jane Doe"],
-  description: "Movie 1 description",
-  backdropUrl: "https://picsum.photos/200/300",
-  posterUrl: "https://picsum.photos/200/300",
-  thumbnailUrl: "https://picsum.photos/200/300",
-};
+const mockTrailer = mockFeaturedTrailers[0];
 
 describe("FeaturedTrailerThumbnail", () => {
   it("should render the featured trailer thumbnail", () => {
@@ -47,7 +36,9 @@ describe("FeaturedTrailerThumbnail", () => {
     const errorThumbnail = screen.getByTestId(
       "featured-trailer-thumbnail-error"
     );
-    const errorIcon = errorThumbnail.getElementsByClassName("lucide-circle-alert")[0];
+    const errorIcon = errorThumbnail.getElementsByClassName(
+      "lucide-circle-alert"
+    )[0];
     expect(errorIcon).toBeInTheDocument();
   });
 

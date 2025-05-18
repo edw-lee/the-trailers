@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { MovieDetailsDto } from "@/dtos/movieDetails/MovieDetailsDto";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,7 @@ export default function PlayButton({ movieDetails }: PlayButtonProps) {
     <Dialog>
       <DialogTrigger asChild>
         <button
+          aria-label="play button"
           onClick={onClick}
           className={cn(
             "relative flex justify-center items-center",
@@ -32,15 +33,16 @@ export default function PlayButton({ movieDetails }: PlayButtonProps) {
         >
           <FontAwesomeIcon
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl xl:text-6xl"
-            icon={faPlay}            
+            icon={faPlay}
           />
         </button>
       </DialogTrigger>
       <DialogContent className="md:max-w-3xl lg:max-w-4xl">
-        <DialogHeader>
-          <DialogTitle>{movieDetails.title} Trailer</DialogTitle>
+        <DialogHeader role="dialog-header">
+          <DialogTitle role="dialog-title">{movieDetails.title} Trailer</DialogTitle>
         </DialogHeader>
-        <iframe className="aspect-video"
+        <iframe
+          className="aspect-video"
           width={"100%"}
           src={`https://www.youtube.com/embed/${movieDetails.youtubeId}`}
           title="YouTube video player"

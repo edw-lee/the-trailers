@@ -50,10 +50,14 @@ function SearchIconWrapper({
   }
 
   if (hasText) {
-    return <X className="cursor-pointer" size={18} onClick={onClearClick} />;
+    return (
+      <button aria-label="clear button" type="button" onClick={onClearClick} className="my-0 p-0">
+        <X className="cursor-pointer" size={18} />
+      </button>
+    );
   }
 
-  return <SearchIcon size={18} />;
+  return <SearchIcon aria-label="search icon" size={18} />;
 }
 
 export default function SearchBar() {
@@ -80,13 +84,14 @@ export default function SearchBar() {
     <div className="relative w-[200px] sm:w-[300px]">
       <div className="relative w-full flex items-center">
         <Input
+          aria-label="search bar"
           className="bg-black/40 border-none placeholder:text-foreground"
           placeholder="Search for a movie"
           onChange={onChange}
           onBlur={onBlur}
           value={input}
         />
-        <span className="absolute right-3 top-1/2 -translate-y-1/2">
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
           <SearchIconWrapper
             isLoading={isLoading}
             hasText={Boolean(input)}

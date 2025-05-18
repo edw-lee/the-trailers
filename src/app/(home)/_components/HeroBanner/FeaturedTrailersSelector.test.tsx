@@ -1,45 +1,17 @@
+import { mockFeaturedTrailers } from "@/mocks/featuredTrailersMock";
+import { setSelectedTrailerIndex } from "@/store/slices/homeSlice";
+import { renderWithRedux } from "@/utils/testUtils";
 import {
   act,
-  cleanup,
   fireEvent,
-  render,
   screen,
-  waitFor,
+  waitFor
 } from "@testing-library/react";
 import FeaturedTrailersSelector from "./FeaturedTrailersSelector";
-import { renderWithRedux } from "@/utils/testUtils";
-import { setSelectedTrailerIndex } from "@/store/slices/homeSlice";
-
-const mockFeaturedTrailers = [
-  {
-    id: "1",
-    slug: "movie-1",
-    tmdbId: "1",
-    bunnyCDNVideoId: "1",
-    title: "Movie 1",
-    casts: ["John Doe", "Jane Doe", "Bob Smith"],
-    description: "Movie 1 description",
-    backdropUrl: "https://picsum.photos/200/300",
-    posterUrl: "https://picsum.photos/200/300",
-    thumbnailUrl: "https://picsum.photos/200/300",
-  },
-  {
-    id: "2",
-    slug: "movie-2",
-    tmdbId: "2",
-    bunnyCDNVideoId: "2",
-    title: "Movie 2",
-    casts: ["Alice Johnson", "Mike Brown", "Sarah Wilson"],
-    description: "Movie 2 description",
-    backdropUrl: "https://picsum.photos/200/301",
-    posterUrl: "https://picsum.photos/200/301",
-    thumbnailUrl: "https://picsum.photos/200/301",
-  },
-];
 
 describe("FeaturedTrailersSelector", () => {
   it("should render the featured trailers selector", () => {
-    const { store } = renderWithRedux(
+    renderWithRedux(
       <FeaturedTrailersSelector featuredTrailers={mockFeaturedTrailers} />
     );
     const featuredTrailersSelector = screen.getByTestId(
@@ -59,7 +31,7 @@ describe("FeaturedTrailersSelector", () => {
     screen.getByText("Bob Smith");
 
     // Select second trailer
-    act(() => store.dispatch(setSelectedTrailerIndex(1)));    
+    act(() => store.dispatch(setSelectedTrailerIndex(1)));
 
     // Verify second trailer's casts are displayed
     screen.getByText("Alice Johnson");
@@ -76,7 +48,7 @@ describe("FeaturedTrailersSelector", () => {
     screen.getByText(mockFeaturedTrailers[0].title);
 
     // Select second trailer
-    act(() => store.dispatch(setSelectedTrailerIndex(1)));    
+    act(() => store.dispatch(setSelectedTrailerIndex(1)));
 
     // Verify second trailer's title is displayed
     screen.getByText(mockFeaturedTrailers[1].title);

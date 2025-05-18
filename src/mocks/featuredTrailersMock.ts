@@ -1,0 +1,26 @@
+export const mockFeaturedTrailers = [
+  {
+    id: "1",
+    slug: "movie-1",
+    tmdbId: "1",
+    bunnyCDNVideoId: "1",
+    title: "Movie 1",
+    casts: ["John Doe", "Jane Doe", "Bob Smith"],
+    description: "Movie 1 description",
+    backdropUrl: "https://picsum.photos/200/300",
+    posterUrl: "https://picsum.photos/200/300",
+    thumbnailUrl: "https://picsum.photos/200/300",
+  },
+  {
+    id: "2",
+    slug: "movie-2",
+    tmdbId: "2",
+    bunnyCDNVideoId: "2",
+    title: "Movie 2",
+    casts: ["Alice Johnson", "Mike Brown", "Sarah Wilson"],
+    description: "Movie 2 description",
+    backdropUrl: "https://picsum.photos/200/301",
+    posterUrl: "https://picsum.photos/200/301",
+    thumbnailUrl: "https://picsum.photos/200/301",
+  },
+];
